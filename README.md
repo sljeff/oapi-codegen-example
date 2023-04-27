@@ -1,5 +1,10 @@
 # oapi-codegen-example
 
+## 运行、检查文档
+
+1. `go run main.go`
+2. 打开 localhost:8080/v1/apidocs
+
 ## 例子的实现步骤
 
 1. 编辑 `spec/oapi/main.yaml`
