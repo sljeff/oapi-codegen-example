@@ -1,0 +1,96 @@
+openapi: 3.0.1
+info:
+  title: jeff test oapi-codegen
+  version: 1.0.0
+servers:
+- url: /v1
+paths:
+  /health:
+    get:
+      tags:
+      - health
+      summary: health check
+      operationId: healthCheck
+      parameters:
+      - name: type
+        in: query
+        schema:
+          type: string
+          enum:
+          - liveness
+          - readiness
+      responses:
+        200:
+          description: Success
+          content: {}
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequestRes'
+        404:
+          description: unknown check type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequestRes'
+  /notes:
+    post:
+      tags:
+      - notes
+      description: notes description
+      operationId: notesPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/notes'
+        required: true
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notes'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequestRes'
+        401:
+          description: 尚未登陆
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequestRes'
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    note:
+      type: object
+      x-omitempty: false
+      properties:
+        id:
+          type: string
+          x-omitempty: false
+        definition_cn:
+          type: string
+          x-omitempty: false
+    notes:
+      type: object
+      x-omitempty: false
+      properties:
+        objects:
+          type: array
+          x-omitempty: false
+          items:
+            $ref: '#/components/schemas/note'
+    badRequestRes:
+      type: object
+      properties:
+        msg:
+          type: string
+          x-omitempty: false
